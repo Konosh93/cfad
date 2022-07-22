@@ -1,9 +1,21 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { Machine } from "@mygym/specs";
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import { useCallback, useState } from "react";
+import styles from "../styles/Home.module.css";
+import { getApiAgent } from "../src/api-agent";
 
 const Home: NextPage = () => {
+  const [machines, setMachines] = useState<Machine[]>([]);
+  const [offset, setOffset] = useState(0);
+  const getMore = useCallback(() => {
+    (async () => {
+      const res = await getApiAgent().listMachines({ offset, limit: 3 });
+      setMachines([...machines, ...res]);
+      setOffset(offset + res.length);
+    })();
+  }, [machines, offset]);
   return (
     <div className={styles.container}>
       <Head>
@@ -13,25 +25,28 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to MyGym
-        </h1>
+        <h1 className={styles.title}>Welcome to MyGym</h1>
+
+        <button onClick={getMore}>load more</button>
+        <div className={styles.divTable}>
+          <div className={styles.headRow}>
+            <div className={styles.divCell}>ID</div>
+            <div className={styles.divCell}>Name</div>
+            <div className={styles.divCell}>Tag</div>
+          </div>
+          {machines.map((m) => (
+            <div key={m.id} className={styles.divRow}>
+              <div className={styles.divCell}>{m.id}</div>
+              <div className={styles.divCell}>{m.name}</div>
+              <div className={styles.divCell}>{m.tag}</div>
+            </div>
+          ))}
+        </div>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

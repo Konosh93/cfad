@@ -21,6 +21,6 @@ export class AppService {
       { id: 4351, name: 'Lat Pulldown Machine' },
       { id: 6789, name: 'Peck Deck Machine' },
     ];
-    return all.slice(offset, offset + limit);
+    return all.slice(+offset, +offset + +limit);
   }
 }
