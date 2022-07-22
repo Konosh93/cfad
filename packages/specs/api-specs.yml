@@ -60,6 +60,8 @@ paths:
       operationId: createMachines
       tags:
         - machines
+      requestBody:
+        $ref: '#/components/requestBodies/CreateMachineRequestBody'
       responses:
         '201':
           description: Null response
@@ -118,10 +120,40 @@ components:
       type: object
       required:
         - code
-        - name
+        - message
       properties:
         code:
           type: integer
           format: int32
-        name:
+        message:
           type: string
+
+  requestBodies:
+    CreateMachineRequestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                minLength: 3
+                maxLength: 128
+              tag:
+                type: string
+                nullable: true
+              provider:
+                type: object
+                required:
+                  - phoneNo
+                properties:
+                  email:
+                    type: string
+                    format: email
+                    nullable: true
+                  phonoNo:
+                    type: string
+                    pattern: '^\([0-9]{3}\)[0-9]{3}-[0-9]{4}$'
+                  contactDate:
+                    type: string
+                    format: date

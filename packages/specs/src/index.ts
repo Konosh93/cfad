@@ -1,5 +1,5 @@
-import { IsOptional, IsInt } from "class-validator";
-import {} from "class-transformer";
+import { IsOptional, IsInt, Length, IsEmail, Matches, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 /*
  * This file is auto-generated. Do NOT modify this file manually.
 */
@@ -31,6 +31,15 @@ export type Machine = {
 };
 export type Machines = Machine[];
 export type ListMachinesResponseBody = Machines;
+export type CreateMachinesRequestBody = {
+    name?: string;
+    tag?: string | null;
+    provider?: {
+        email?: string | null;
+        phonoNo?: string;
+        contactDate?: string | Date;
+    };
+};
 export type ShowMachineByIdResponseBody = Machine;
 export class ListMachinesQueryValidator {
     /**
@@ -45,6 +54,50 @@ export class ListMachinesQueryValidator {
     @IsOptional()
     @IsInt()
     limit: number;
+}
+export class Provider1Validator {
+    /**
+     * email
+     */
+    @IsOptional()
+    @IsEmail()
+    email: string;
+    /**
+     * phonoNo
+     */
+    @IsOptional()
+    @Matches(/^\([0-9]{3}\)[0-9]{3}-[0-9]{4}$/)
+    phonoNo: string;
+    /**
+     * contactDate
+     */
+    @IsOptional()
+    @Type(() => Date)
+    contactDate: Date;
+}
+export class CreateMachinesRequestBodyValidator {
+    /**
+     * name
+     */
+    @IsOptional()
+    @Length(3, 128)
+    name: string;
+    /**
+     * tag
+     */
+    @IsOptional()
+    tag: string;
+    /**
+     * provider
+     */
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => Provider1Validator)
+    provider: {
+        email?: string | null;
+        phonoNo?: string;
+        contactDate?: string | Date;
+    };
 }
 export default class APIAgent {
     httpClient: HTTPClient;
@@ -66,8 +119,8 @@ export default class APIAgent {
     /**
      * Create a machine
      */
-    async createMachines() {
-        return await this.httpClient.post("/machines", {}, {});
+    async createMachines(body: CreateMachinesRequestBody) {
+        return await this.httpClient.post("/machines", body, {});
     }
     /**
      * Info for a specific machine

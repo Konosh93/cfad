@@ -2100,6 +2100,7 @@ __metadata:
     next: 12.2.2
     react: 18.2.0
     react-dom: 18.2.0
+    reflect-metadata: ^0.1.13
     typescript: 4.7.4
   languageName: unknown
   linkType: soft
@@ -2545,14 +2546,6 @@ __metadata:
   checksum: e2a763e7bca8f7a2494f752d0e1a5c0cd1c70ebd18df2eda2bdcf2f908901bbff14f78961ad1cada3eb7af32120ce95aa93f06c5a093d721e787816dc7f5bfaa
   languageName: node
   linkType: hard
-
-"cfad@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "cfad@workspace:."
-  dependencies:
-    typescript: ^4.5.4
-  languageName: unknown
-  linkType: soft
 
 "chalk@npm:3.0.0":
   version: 3.0.0
@@ -6000,6 +5993,14 @@ __metadata:
   checksum: ff48d251fc3f827e5b1206cda0ffdaec885e56057ee86a3155e1951bc940fd5f33531774b1cc8414d7668c10a8907f863f6561875ee6e8768931a62121a531a1
   languageName: node
   linkType: hard
+
+"mygym@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "mygym@workspace:."
+  dependencies:
+    typescript: ^4.5.4
+  languageName: unknown
+  linkType: soft
 
 "mz@npm:^2.7.0":
   version: 2.7.0
