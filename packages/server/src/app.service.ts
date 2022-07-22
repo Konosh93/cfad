@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Do you even lift? bro!';
+    return 'Hi!';
   }
 
   listMachines(offset: number, limit: number) {
