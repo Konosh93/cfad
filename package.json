@@ -1,0 +1,19 @@
+{
+  "name": "cfad",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "prepare:env": "yarn workspaces foreach -pvi exec cp ../../.env .env",
+    "build": "yarn workspaces foreach -pvit --exclude @laimuna/cms run build",
+    "dev": "yarn workspaces foreach -pvit run dev"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "yarn@3.2.0"
+}
