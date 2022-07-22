@@ -1,4 +1,4 @@
-import { IsOptional as , IsInt as  } from "class-validator";
+import { IsOptional, IsInt } from "class-validator";
 import {} from "class-transformer";
 /*
  * This file is auto-generated. Do NOT modify this file manually.
@@ -19,7 +19,9 @@ export interface HTTPClient {
         [key: string]: string;
     }) => void;
 }
+export type GetMyHealthResponseBody = string;
 export type ListMachinesQuery = {
+    offset?: number;
     limit?: number;
 };
 export type Machine = {
@@ -32,6 +34,12 @@ export type ListMachinesResponseBody = Machines;
 export type ShowMachineByIdResponseBody = Machine;
 export class ListMachinesQueryValidator {
     /**
+     * How many items to skip. Use for pagination
+     */
+    @IsOptional()
+    @IsInt()
+    offset: number;
+    /**
      * How many items to return at one time (max 100)
      */
     @IsOptional()
@@ -42,6 +50,12 @@ export default class APIAgent {
     httpClient: HTTPClient;
     constructor(httpClient: HTTPClient) {
         this.httpClient = httpClient;
+    }
+    /**
+     * Health Check
+     */
+    async getMyHealth() {
+        return await this.httpClient.get("/", {}) as GetMyHealthResponseBody;
     }
     /**
      * List all machines

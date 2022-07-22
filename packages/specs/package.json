@@ -1,8 +1,8 @@
 {
-  "name": "gym-specs",
+  "name": "@mygym/specs",
   "version": "1.0.0",
-  "description": "My awesome gym app",
-  "main": "index.js",
+  "description": "My awesome mygym app",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "gen": "open-ts gen-agent api-specs.yml src/index.ts",
@@ -10,7 +10,8 @@
     "build": "yarn gen && yarn build:src"
   },
   "devDependencies": {
-    "open-ts": "^1.3.1"
+    "open-ts": "^1.3.3",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",

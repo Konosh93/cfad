@@ -1,12 +1,21 @@
 openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Swagger Machinestore
+  title: MyGym Machines
   license:
     name: MIT
-servers:
-  - url: http://machinestore.swagger.io/v1
 paths:
+  /:
+    get:
+      summary: Health Check
+      operationId: getMyHealth
+      responses:
+        '200':
+          description: Health Check Answer
+          content:
+            application/json:    
+              schema:
+                type: string
   /machines:
     get:
       summary: List all machines
@@ -14,6 +23,13 @@ paths:
       tags:
         - machines
       parameters:
+        - name: offset
+          in: query
+          description: How many items to skip. Use for pagination
+          required: false
+          schema:
+            type: integer
+            format: int32
         - name: limit
           in: query
           description: How many items to return at one time (max 100)
@@ -102,10 +118,10 @@ components:
       type: object
       required:
         - code
-        - message
+        - name
       properties:
         code:
           type: integer
           format: int32
-        message:
+        name:
           type: string
