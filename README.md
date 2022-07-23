@@ -1,1 +1,9 @@
-# cfad
+# mygym
+### Install
+```
+yarn
+```
+
+```
+yarn dev
+```

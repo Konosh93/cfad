@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import APIAgent from "@mygym/specs";
 import { WebHttpClient } from "./http-client";
 
