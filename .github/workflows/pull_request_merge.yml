@@ -1,8 +1,11 @@
-name: 'pull request merge'
+# NOTE: https://hoshinotsuyoshi.com/post/merge-ff/
+name: fast-forwardのマージ
 
 on:
   pull_request:
     types: [labeled]
+    branches:
+      - main
 
 jobs:
   pull_request_merge:
@@ -14,7 +17,26 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Fast Forword Merge
+    - name: Check for PR approval
+      id: check_approval
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { data: reviews } = await github.pulls.listReviews({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            pull_number: context.issue.number,
+          });
+          const approved = reviews.some(review => review.state === 'APPROVED');
+          if (!approved) {
+            core.setFailed('PRがまだ承認されていない。');
+          } else {
+            console.log('PRが承認された');
+          }
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Fast Forward Merge
       uses: robotology/gh-action-nightly-merge@v1.5.0
       with:
         stable_branch: ${{ github.event.pull_request.head.ref }}
