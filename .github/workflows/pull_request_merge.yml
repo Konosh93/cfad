@@ -1,0 +1,32 @@
+name: 'pull request merge'
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  pull_request_merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: ${{ startsWith(github.event.label.name, 'merge-ff') }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Fast Forword Merge
+      uses: robotology/gh-action-nightly-merge@v1.3.2
+      with:
+        stable_branch: ${{ github.event.pull_request.head.ref }}
+        development_branch: ${{ github.event.pull_request.base.ref }}
+
+        # NOTE: fast forwardでマージするにはこの2つが必要
+        allow_ff: true
+        ff_only: true
+
+        # NOTE: robotology/gh-action-nightly-mergeの実装の都合上、
+        # プライベートリポジトリの場合はallow_forks: trueでないと動かないかもしれません
+        allow_forks: false
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
